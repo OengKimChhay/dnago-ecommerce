@@ -27,6 +27,12 @@ User Register
                             {{ form.non_field_errors }}
                         </div>
                     {% endif %}
+
+                    {% for msg in messages %}
+                        <div class="alert alert-success" role="alert">
+                            {{ msg }}
+                        </div>
+                    {% endfor %}
                     <form method="POST" enctype="multipart/form-data">
                         {% csrf_token %}
                         <div class="form-row">
