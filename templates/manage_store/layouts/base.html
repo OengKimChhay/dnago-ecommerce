@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}{% endblock %}</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="{% static 'css/manage_store/css/bootstrap.min.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/manage_store/css/metisMenu.css' %}">
+    <!-- style CSS -->
+    <link rel="stylesheet" href="{% static 'css/manage_store/css/style.css' %}" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.5.0/css/font-awesome.css" />
+    {% block css %}{% endblock %}
+</head>
+<body class="crm_body_bg">
+
+
+
+<!-- main content part here -->
+
+ <!-- sidebar  -->
+<nav class="sidebar dark_sidebar">
+    <div class="logo d-flex justify-content-between">
+        <a class="large_logo" ><img style="width:48px;" src="../../../media/manage_store/logo.png" alt="image"></a>
+        <a class="small_logo" ><img style="width:48px;" src="../../../media/manage_store/logo.png" alt="image"></a>
+    </div>
+    <ul id="sidebar_menu">
+        <li class="">
+            <a href="{% url 'manage_store:dashboard' %}" aria-expanded="false">
+                <div class="nav_icon_small">
+                    <i class="fa fa-tachometer" aria-hidden="true"></i>
+                </div>
+            <div class="nav_title">
+                <span>Dashboard</span>
+            </div>
+            </a>
+        </li>
+        <li class="">
+            <a class="has-arrow" href="#" aria-expanded="false">
+                <div class="nav_icon_small">
+                    <i class="fa fa-tachometer" aria-hidden="true"></i>
+                </div>
+                <div class="nav_title">
+                    <span>Product </span>
+                    <i class="fa fa-angle-right"></i>
+                </div>
+            </a>
+            <ul><li><a href="">Listing</a></li>
+              <li><a href="{% url 'manage_store:create_product' %}">Create</a></li>
+            </ul>
+        </li>
+        <li class="">
+            <a class="has-arrow" href="#" aria-expanded="false">
+                <div class="nav_icon_small">
+                    <i class="fa fa-user" aria-hidden="true"></i>
+                </div>
+                <div class="nav_title">
+                    <span>User </span>
+                    <i class="fa fa-angle-right"></i>
+                </div>
+            </a>
+            <ul><li><a href="{% url 'user:auth_register' %}">Create</a></li>
+              <li><a href="index_3.html">Listing</a></li>
+            </ul>
+        </li>
+    </ul>
+</nav>
+ <!--/ sidebar  -->
+
+
+<section class="main_content dashboard_part large_header_bg">
+    <!-- menu  -->
+    <div class="container-fluid no-gutters">
+        <div class="row">
+            <div class="col-lg-12 p-0 ">
+                <div class="header_iner d-flex justify-content-between align-items-center">
+                    <div class="sidebar_icon d-lg-none" style="font-size:25px;cursor:pointer;">
+                        <i class="fa fa-bars"></i>
+                    </div>
+                    <div class="line_icon open_miniSide d-none d-lg-block" style="font-size:25px;cursor:pointer;">
+                        <i class="fa fa-bars"></i>
+                    </div>
+                    <div class="">
+                        <div class="profile_info d-flex align-items-center">
+                            <div class="profile_thumb mr_20">
+                                <img src="img/transfer/4.png" alt="#">
+                            </div>
+                            <div class="author_name">
+                                <h4 class="f_s_15 f_w_500 mb-0">Jiue Anderson</h4>
+                                <p class="f_s_12 f_w_400">Manager</p>
+                            </div>
+                            <div class="profile_info_iner">
+                                <div class="profile_author_name">
+                                    <p>Manager</p>
+                                    <h5>Jiue Anderson</h5>
+                                </div>
+                                <div class="profile_info_details">
+                                    <a href="#">My Profile </a>
+                                    <a href="#">Settings</a>
+                                    <a href="#">Log Out </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!--/ menu  -->
+    <div class="main_content_iner overly_inner ">
+        <div class="container-fluid p-0 ">
+
+            {% block content %}
+            {% endblock %}
+
+        </div>
+    </div>
+
+
+<!-- footer part -->
+<div class="footer_part">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="footer_iner text-center">
+                    <p>2020 © Wordl Shop - All rights reserved.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</section>
+<!-- main content part end -->
+
+<div id="back-top" style="display: none;">
+    <a title="Go to Top" href="#">
+        <i class="fa fa-arrow-up"></i>
+    </a>
+</div>
+
+ <!-- footer  -->
+  <script src="{% static 'js/manage_store/js/jquery-3.4.1.min.js' %}"></script>
+  <!-- sidebar menu  -->
+  <script src="{% static 'js/manage_store/js/metisMenu.js' %}"></script>
+  <!-- custom js -->
+  <script src="{% static 'js/manage_store/js/custom.js' %}"></script>
+  {% block js %}{% endblock %}
+</body>
+</html>
