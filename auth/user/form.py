@@ -5,6 +5,7 @@ from .models import MyCustomUser
 import re
 
 EMAIL_REGEX = r"(^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$)"
+PHONE_REGEX = r"^\+?1?\d{9,15}$"
 SPECIAL_CHAR_REGEX = "[@_!#$%^&*()<>?/\|}{~:]"
 
 
@@ -142,8 +143,7 @@ class UserForm(UserCreationForm):
         required=False,
         widget=forms.CheckboxInput(
             attrs={
-                "class": "form-check-input",
-                "checked": ""
+                "class": "form-check-input"
             }
         )
     )
@@ -192,7 +192,7 @@ class UserForm(UserCreationForm):
         email = self.cleaned_data.get("email")
         if email == "":
             raise forms.ValidationError(_("Employee Email can not be blank"))
-        elif MyCustomUser.objects.filter(email=email).exists():
+        elif MyCustomUser.objects.filter(email__iexact=email).exclude(email=email):
             raise forms.ValidationError(_("Email already exists. try another one"))
         elif email and not re.match(EMAIL_REGEX, email):
             raise forms.ValidationError(_('Invalid email format, example@gmail.com'))
@@ -217,6 +217,8 @@ class UserForm(UserCreationForm):
         phone = self.cleaned_data.get("phone")
         if phone == "":
             raise forms.ValidationError(_("Phone can not be blank"))
+        elif phone and not re.match(PHONE_REGEX, phone):
+            raise forms.ValidationError(_('invalid phone number.'))
         else:
             return phone
 

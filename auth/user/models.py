@@ -6,7 +6,7 @@ from .manager import MyUserManager
 class MyCustomUser(AbstractBaseUser, PermissionsMixin):
     email = models.EmailField(max_length=60, unique=True)
     company_name = models.CharField(max_length=225)
-    phone = models.CharField(max_length=20)
+    phone = models.CharField(max_length=20, unique=True)
     profile = models.ImageField(upload_to='user/', null=True, blank=True)
     contry = models.CharField(max_length=50)
     fullname = models.CharField(max_length=30)
