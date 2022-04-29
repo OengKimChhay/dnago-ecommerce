@@ -46,7 +46,7 @@ INSTALLED_APPS = [
 ]
 
 # ------------------------- use custom use model ----------------------------
-AUTH_USER_MODEL = "user.MyCustomUser"
+AUTH_USER_MODEL = "user.Account"
 
 
 MIDDLEWARE = [
@@ -117,7 +117,9 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+# TIME_ZONE = 'UTC'
+
+TIME_ZONE = 'Asia/Phnom_Penh'
 
 USE_I18N = True
 

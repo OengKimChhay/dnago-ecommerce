@@ -17,8 +17,8 @@
                         {% else %}
                             <img src="/../media/user/avatar.png" alt="image" class="w-100 m-3" >
                         {% endif %}
-                        <a href="" class="btn btn-danger">Delete</a>
-                        <a href="" class="btn btn-primary">Update</a>
+                        <a href="{% url 'user:auth_delete' user.id %}" class="btn btn-danger">Delete</a>
+                        <a href="{% url 'user:auth_update' user.id %}" class="btn btn-primary">Update</a>
                         <a href="{% url 'user:auth_listing' %}" class="btn btn-info">Back</a>
                     </div>
                     <div class="col-md-8">

@@ -1,10 +1,10 @@
 from django.db import models
-from auth.user.models import MyCustomUser
+from auth.user.models import Account
 
 
 # Create your models here.
 class Customer(models.Model):
-    user_id = models.OneToOneField(MyCustomUser, on_delete=models.CASCADE)
+    user_id = models.OneToOneField(Account, on_delete=models.CASCADE)
     name = models.CharField(max_length=255, null=True, blank=True)
     email = models.CharField(max_length=255, null=True)
 
@@ -16,7 +16,7 @@ class Category(models.Model):
 
 class Product(models.Model):
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
-    created_by = models.ForeignKey(MyCustomUser, on_delete=models.CASCADE)
+    created_by = models.ForeignKey(Account, on_delete=models.CASCADE)
     title = models.CharField(max_length=255)
     author = models.CharField(max_length=255, default='admin')
     description = models.TextField(max_length=255, blank=True)

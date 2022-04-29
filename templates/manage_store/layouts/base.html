@@ -26,13 +26,26 @@
         </div>
         <div class="sidebar-header">
             <div class="user-pic">
-                <img class="img-responsive img-rounded" src="" alt="photo">
+                {% if user.is_authenticated %}
+                    {% if user.profile %}
+                        <img src="{{ user.profile.url }}" alt="photo">
+                    {% else %}
+                        <img src="../../media/user/avatar.png" alt="photo">
+                    {% endif %}
+                {% else %}
+                    <img src="../../media/user/avatar.png" alt="photo">
+                {% endif %}
             </div>
             <div class="user-info">
             <span class="user-name">
-                <strong>Test</strong>
+                <strong>
+                    {% if user.is_authenticated %}
+                        {{ user.fullname }}
+                    {% else %}
+                        Unknow
+                    {% endif %}
+                </strong>
             </span>
-            <span class="user-role">Admin</span>
             <span class="user-status">
                 <i class="fa fa-circle"></i>
                 <span>Online</span>
@@ -104,7 +117,7 @@
                     </div>
                 </li>
                 <li class="sidebar-dropdown">
-                    <a href="#">
+                    <a href="{% url 'user:auth_logout' %}">
                     <i class="fa fa-sign-out-alt"></i>
                     <span>Logout</span>
                     </a>
