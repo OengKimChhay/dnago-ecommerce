@@ -95,6 +95,12 @@
                             <label for="{{ form.profile.id_for_label }}">{{ form.profile.label }}</label>
                             {{ form.profile }}
                         </div>
+                        <div class="d-flex justify-content-center" style="border: 2px dashed grey;margin:20px 0;">
+                            <div>
+                                <img id="imgPreview" src="../../../media/user/avatar.png" alt="image" style="width:300px;padding: 13px;">
+                                <strong id="sizefile" style="display:block"></strong>
+                            </div>
+                        </div>
                         <label class="form-check-label">Role</label>
                         <div class="form-group form-check mb-3">
                             {{ form.is_admin }}
@@ -119,3 +125,23 @@
         </div>
     </div>
 {% endblock%}
+
+{% block javascript %}
+<script>
+<!-- display preview image before upload -->
+    $(document).ready(()=>{
+      $('input[type=file]').change(function(){
+        const file = this.files[0];
+        var filesize = (file.size / (1024*1024)).toFixed(3);
+        if (file){
+          let reader = new FileReader();
+          reader.onload = function(event){
+            $('#imgPreview').attr('src', event.target.result);
+            $('#sizefile').html(filesize+' MB');
+          }
+          reader.readAsDataURL(file);
+        }
+      });
+    });
+</script>
+{% endblock %}

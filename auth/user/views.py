@@ -1,3 +1,5 @@
+import os
+
 from django.db.models import Q
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
@@ -57,19 +59,35 @@ def auth_update(request, pk):
     user_model = get_user_model()
     user = user_model.objects.get(id=pk)
     form = UpdateForm(request.POST or None, request.FILES or None, instance=user)
+    if user is not None:
+        if request.method == 'POST':
+            try:
+                if form.is_valid():
+                    # ----remove old pic------
+                    if len(request.FILES) != 0:
+                        old_profile = user.profile.path
+                        if os.path.exists(old_profile):
+                            os.remove(old_profile)
+                    form.save()
+                    messages.success(request, 'User has been updated.')
+                    return render(request, 'manage_store/user/update.html', {'form': form, 'old_profile': user})
+            except Exception as e:
+                messages.error(request, e)
+                return render(request, 'manage_store/user/update.html', {'form': form, 'old_profile': user})
 
-    if request.method == 'POST':
-        if form.is_valid():
-            form.save()
-            messages.success(request, 'User has been updated.')
-            return redirect("user:auth_register")
-    return render(request, 'manage_store/user/update.html', {'form': form})
+        return render(request, 'manage_store/user/update.html', {'form': form, 'old_profile': user})
+    else:
+        messages.error(request, 'Cant find this number.')
+        return redirect('user:auth_listing')
 
 
 def auth_delete(request, pk):
     user_model = get_user_model()
     user = user_model.objects.get(id=pk)
-    if user:
+    if user is not None:
+        old_profile = user.profile.path
+        if os.path.exists(old_profile):
+            os.remove(old_profile)
         user.delete()
         messages.success(request, f'{user.fullname} has been deleted.')
     return redirect("user:auth_listing")
