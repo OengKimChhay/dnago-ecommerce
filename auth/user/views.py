@@ -5,6 +5,8 @@ from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.contrib.auth import get_user_model
+from django.utils.safestring import mark_safe
+
 # Custom import
 from .form import (
     RegistrationForm,
@@ -97,24 +99,20 @@ def auth_login(request):
     if request.method == 'POST':
         form = LoginForm(request.POST)
         if form.is_valid():
-            email = form.cleaned_data.get('email')
-            password = form.cleaned_data.get('password')
-            checkUser = get_user_model().objects.get(email=email)
-            if checkUser.is_active:
+            try:
+                email = form.cleaned_data.get('email')
+                password = form.cleaned_data.get('password')
                 user = authenticate(email=email, password=password)
                 if user is not None:
-                    if user.is_active:  # check if user is_admin
-                        if user.is_admin:
-                            login(request, user)
-                            return redirect('manage_store:dashboard')
-                        else:
-                            messages.error(request, 'Sorry this user is not admin')
+                    if user.is_admin:
+                        login(request, user)
+                        return redirect('manage_store:dashboard')
                     else:
-                        messages.error(request, 'Sorry this user is not Inactivate')
+                        messages.error(request, 'Sorry your account does\'nt have any permissions to access. Your\'re not Admin')
                 else:
-                    messages.error(request, 'Invalid user name or password')
-            else:
-                messages.error(request, 'Sorry this user is  Inactivate')
+                    messages.error(request, mark_safe('Invalid username or password. <br/> <small style="font-size:12px;">Note: Your account can be Inactive.</small>'))
+            except Exception as e:
+                messages.error(request, 'There is something wrong with your account. please try again.')
     else:
         form = LoginForm()
     return render(request, 'manage_store/user/login.html', {'form': form})

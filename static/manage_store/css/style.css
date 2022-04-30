@@ -446,3 +446,12 @@ body {
     transform: rotate(0deg);
     }
 }
+.errorlist{
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    margin: 10px;
+    font-size: 12px;
+}
+.shadow-custom{
+}

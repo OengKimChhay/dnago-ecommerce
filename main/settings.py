@@ -48,7 +48,6 @@ INSTALLED_APPS = [
 # ------------------------- use custom use model ----------------------------
 AUTH_USER_MODEL = "user.Account"
 
-
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -57,6 +56,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'auth.user.routeMiddleware.protectRoute'
 ]
 
 ROOT_URLCONF = 'main.urls'
@@ -142,3 +142,10 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
 
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# --- [login requred] these var use in routeMiddleware.py ---
+LOGIN_URL = '/auth/login/'
+LOGIN_EXEMPT_URLS = (  # mean that if user unauthenticated user can access only below routes. (check in routeMiddleware.py)
+    r'^auth/login/$',
+    # r'^auth/register/$',
+)
