@@ -1,10 +1,97 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+{% extends '../layouts/base.html' %}
+{% block title %} User Listing {% endblock %}
 
-</body>
-</html>
+{% block page_title %} User Listing {% endblock %}
+
+{% block content %}
+    <div class="row mb-5">
+            <div class="col-md-4 d-flex">
+                <form action="" method="GET" class="d-flex">
+                    {% csrf_token %}
+                    <input type="text" name="search" class="form-control" placeholder="Search / fullname / email / phone">
+                    <select name="role" class="form-select">
+                        <option value="">Role</option>
+                        <option value="admin">Admin</option>
+                        <option value="customer">Customer</option>
+                        <option value="staff">Staff</option>
+                        <option value="active">Active</option>
+                    </select>
+                    <button class="btn btn-primary">Search</button>
+                </form>
+            </div>
+            <div class="col-md-6">
+                <a href="{% url 'user:auth_register' %}" class="btn btn-success">Add new</a>
+            </div>
+        </div>
+    {% for msg in messages %}
+        <div class="alert alert-success" role="alert">
+            {{ msg }}
+        </div>
+    {% endfor %}
+
+    {% if users %}
+        <h5>User found : {{ users|length }}</h5>
+        <table class="shadow table table-border">
+            <thead>
+                <tr>
+                    <th>Profile</th>
+                    <th>User</th>
+                    <th>Admin</th>
+                    <th>Customer</th>
+                    <th>Staff</th>
+                    <th>Active</th>
+                    <th>Date Joined</th>
+                    <th>Last Login</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for user in users %}
+                    <tr>
+                        <th>
+                            {% if user.profile.url is not NULL %}
+                            <img src="{{ user.profile.url }}" alt="{{user.profile}}" style="width:100px;">
+                            {% else %}
+                                <img src="../../media/user/avatar.png" alt="image" style="width:100px;">
+                            {% endif %}
+                        </th>
+                        <td>
+                            full name: <b>{{ user.fullname }}</b> <br>
+                            email : <b>{{ user.email }}</b> <br>
+                            phone : <b>{{ user.phone }}</b>
+                        </td>
+                        <td>
+                            <input class="form-check-input" type="checkbox" name=""  disabled {% if user.is_admin == 1 %} checked {% endif %}>
+                        </td>
+                        <td>
+                            <input class="form-check-input" type="checkbox" name=""  disabled {% if user.is_customer == 1 %} checked {% endif %}>
+                        </td>
+                        <td>
+                            <input class="form-check-input" type="checkbox" name=""  disabled {% if user.is_staff == 1 %} checked {% endif %}>
+                        </td>
+                        <td>
+                            <input class="form-check-input" type="checkbox" name=""  disabled {% if user.is_active == 1 %} checked {% endif %}>
+                        </td>
+                        <td>{{ user.date_joined|date:"d M,Y / h:i a" }}</td>
+                        <td>{{ user.last_login|date:"d M,Y / h:i a" }}</td>
+                        <td>
+                            <div class="btn-group">
+                              <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                                Action
+                              </button>
+                              <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="{% url 'user:auth_view' user.id %}">View</a></li>
+                                <li><a class="dropdown-item" href="{% url 'user:auth_update' user.id %}">Update</a></li>
+                                <li><a class="dropdown-item" href="{% url 'user:auth_delete' user.id %}">Delete</a></li>
+                              </ul>
+                            </div>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <h3 class="text-center">No user found.</h3>
+    {% endif %}
+
+{% endblock%}

@@ -1,0 +1,52 @@
+{% extends '../layouts/base.html' %}
+{% block title %} User Detail {% endblock %}
+{% block page_title %} User Datail {% endblock %}
+
+{% block content %}
+
+    <div class="row d-flex justify-content-center">
+        <div class="col-md-6">
+            <div class="card border-2 border-info">
+                <div class="card-header">
+                    Date Joined : {{ user.date_joined|date }}
+                </div>
+                <div class="row">
+                    <div class="col-md-4 p-4">
+                        {% if user.profile.url is not NULL %}
+                            <img src="{{ user.profile.url }}" alt="{{user.profile}}" class="w-100 m-3">
+                        {% else %}
+                            <img src="/../media/user/avatar.png" alt="image" class="w-100 m-3" >
+                        {% endif %}
+                        <a href="{% url 'user:auth_delete' user.id %}" class="btn btn-danger">Delete</a>
+                        <a href="{% url 'user:auth_update' user.id %}" class="btn btn-primary">Update</a>
+                        <a href="{% url 'user:auth_listing' %}" class="btn btn-info">Back</a>
+                    </div>
+                    <div class="col-md-8">
+                      <div class="card-body">
+                        <h5 class="card-title">Full Name : {{ user.fullname }}</h5>
+                        <p class="card-text">Email : {{ user.email }}</p>
+                        <p class="card-text">Phone : {{ user.phone }}</p>
+                        <p class="card-text">Company : {{ user.company }}</p>
+                        <p class="card-text">Contry : {{ user.contry }}</p>
+                        <p class="card-text">
+                            Admin : <input class="form-check-input" type="checkbox" name=""  disabled {% if user.is_admin == 1 %} checked {% endif %}>
+                        </p>
+                        <p class="card-text">
+                            Customer : <input class="form-check-input" type="checkbox" name=""  disabled {% if user.is_customer == 1 %} checked {% endif %}>
+                        </p>
+                        <p class="card-text">
+                            Staff : <input class="form-check-input" type="checkbox" name=""  disabled {% if user.is_staff == 1 %} checked {% endif %}>
+                        </p>
+                        <p class="card-text">
+                            Verify : <input class="form-check-input" type="checkbox" name=""  disabled {% if user.is_verified == 1 %} checked {% endif %}>
+                        </p>
+                      </div>
+                    </div>
+                </div>
+                <div class="card-footer text-muted">
+                    Last Login : {{ user.last_login|date }}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock%}

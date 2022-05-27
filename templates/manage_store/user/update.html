@@ -1,6 +1,6 @@
 {% extends '../layouts/base.html' %}
-{% block title %} User Register {% endblock %}
-{% block page_title %} Register New User {% endblock %}
+{% block title %} Update User {% endblock %}
+{% block page_title %} Update User {% endblock %}
 
 {% block content %}
 
@@ -16,11 +16,11 @@
                     {% endif %}
 
                     {% for msg in messages %}
-                        <div class="alert alert-success" role="alert">
+                        <div class="alert alert-info" role="alert">
                             {{ msg }}
                         </div>
                     {% endfor %}
-                    <form method="POST" enctype="multipart/form-data" action="{% url 'user:auth_register' %}">
+                    <form method="POST" enctype="multipart/form-data">
                         {% csrf_token %}
                         <div class="row mb-3 ">
                             <div class="col-md-6">
@@ -71,6 +71,15 @@
                                 <small id="{{ form.contry.id_for_label }}" class="form-text text-muted">{{ form.contry.help_text }}</small>
                             {% endif %}
                         </div>
+                        <div class="form-group mb-3">
+                            <label for="{{ form.password.id_for_label }}">{{ form.password.label }}</label>
+                                {{ form.password }}
+                                {% if form.password.errors %}
+                                    <small class="text-danger">{{ form.password.errors }}</small>
+                                {% else %}
+                                    <small id="{{ form.password.id_for_label }}" class="form-text text-muted">{{ form.password.help_text }}</small>
+                                {% endif %}
+                        </div>
                         <div class="row mb-3 ">
                             <div class="col-md-6">
                                 <label for="{{ form.password1.id_for_label }}">{{ form.password1.label }}</label>
@@ -97,7 +106,7 @@
                         </div>
                         <div class="d-flex justify-content-center" style="border: 2px dashed grey;margin:20px 0;">
                             <div>
-                                <img id="imgPreview" src="../../../media/user/avatar.png" alt="image" style="width:300px;padding: 13px;">
+                                <img id="imgPreview" src="{% if old_profile.profile %} {{ old_profile.profile.url }} {% else %} ../../../media/user/avatar.png {% endif %}" alt="image" style="width:300px;padding: 13px;">
                                 <strong id="sizefile" style="display:block"></strong>
                             </div>
                         </div>
