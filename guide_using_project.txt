@@ -1,0 +1,10 @@
+========================= Ecommerce =========================
+- Use python 3.8.10
+- Use pip3
+
+------------------------- Guide -----------------------------
+before using this project u must run providing comd below to install all the packages which are required in this project.
+- pip freeze > requirements.txt [ to create requirements.txt if it exist u don't have to run this cmd ]
+- pip install -r requirements.txt [ to install install all the packages inside requirements.txt file ]
+
+- before go inside project user must be login first make sure user is active
