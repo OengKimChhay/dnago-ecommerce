@@ -521,13 +521,13 @@ class UpdateForm(UserCreationForm):
                     "Password and Re-password does not match"
                 )
 
-    # def clean_password(self):
-    #     old_password = self.cleaned_data.get("password")
-    #     if old_password == "":
-    #         raise forms.ValidationError("You must enter your old password.")
-    #     if self.old_password_flag == False:
-    #         raise forms.ValidationError("The old password that you have entered is wrong.")
-    #     return old_password
+    def clean_password(self):
+        old_password = self.cleaned_data.get("password")
+        if old_password == "":
+            raise forms.ValidationError("You must enter your old password.")
+        if self.old_password_flag == False:
+            raise forms.ValidationError("The old password that you have entered is wrong.")
+        return old_password
 
 class LoginForm(forms.Form):
     class Meta:
