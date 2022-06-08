@@ -19,10 +19,10 @@ from django.conf import settings
 from django.conf.urls.static import static
 
 urlpatterns = [
-    path('admin/'   , admin.site.urls),
-    path('/'        , include('apps.store.urls', namespace='store')),
-    path('auth/'    , include('apps.manage_store.urls', namespace='manage_store')),
-    path('auth/'    , include('auth.user.urls', namespace='user'))
+    # path('admin/'   , admin.site.urls),
+    path('', include('apps.backEnd.manageStores.urls', namespace='manageStores')),
+    # path('auth/'    , include('apps.frontEnd.store.urls', namespace='store')),
+    path('auth/', include('auth.user.urls', namespace='user'))
 ]
 
 if settings.DEBUG:

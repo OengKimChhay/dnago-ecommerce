@@ -8,6 +8,8 @@ EXEMPT_URLS = [compile(settings.LOGIN_URL.lstrip('/'))]
 if hasattr(settings, 'LOGIN_EXEMPT_URLS'):
     EXEMPT_URLS += [compile(url) for url in settings.LOGIN_EXEMPT_URLS]
 
+# ACCEPT_URLS_BEFORE_LOGIN = [compile(url) for url in settings.ACCEPT_URLS_BEFORE_LOGIN]
+
 
 class protectRoute:
     def __init__(self, get_response):
@@ -34,4 +36,4 @@ class protectRoute:
         else:  # if user authenticated prevent to not access login route again
             path = request.path_info.lstrip('/')
             if any(m.match(path) for m in EXEMPT_URLS):
-                return redirect('manage_store:dashboard')
+                return redirect('manageStores:dashboard')

@@ -14,6 +14,7 @@ import environ
 
 from pathlib import Path
 
+# to use .env file
 env = environ.Env()
 environ.Env.read_env()
 
@@ -40,12 +41,12 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'apps.store',
-    'apps.manage_store',
+    'apps.backEnd.manageStores',
+    'apps.frontEnd.store',
     'auth.user'
 ]
 
-# ------------------------- use custom use model ----------------------------
+#  use custom use model
 AUTH_USER_MODEL = "user.Account"
 
 MIDDLEWARE = [
@@ -56,6 +57,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    # custom middleware to project route authentication
     'auth.user.routeMiddleware.protectRoute'
 ]
 
@@ -64,6 +66,7 @@ ROOT_URLCONF = 'main.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
+        # config templates folder to be known all app
         'DIRS': [os.path.join(BASE_DIR, 'templates'), ],
         'APP_DIRS': True,
         'OPTIONS': {
@@ -72,7 +75,8 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
-                'apps.store.views.categories',  # share data to all views
+                # share data to all views
+                # 'apps.manageStores.views.categories',
             ],
         },
     },
@@ -117,9 +121,10 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-# TIME_ZONE = 'UTC'
 
+# time zoon in cambodia
 TIME_ZONE = 'Asia/Phnom_Penh'
+# TIME_ZONE = 'UTC'
 
 USE_I18N = True
 
@@ -127,13 +132,11 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.0/howto/static-files/
-
 STATIC_URL = 'static/'
 STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
 STATICFILES_DIRS = (
     os.path.join(BASE_DIR, 'static'),
 )
-
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
 
@@ -143,9 +146,11 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-# --- [login requred] these var use in routeMiddleware.py ---
+# login required these var use in routeMiddleware.py
 LOGIN_URL = '/auth/login/'
-LOGIN_EXEMPT_URLS = (  # mean that if user unauthenticated user can access only below routes. (check in routeMiddleware.py)
+
+# if user unauthenticated user can access only below routes. (check in routeMiddleware.py)
+ACCEPT_URLS_BEFORE_LOGIN = (
     r'^auth/login/$',
     # r'^auth/register/$',
 )

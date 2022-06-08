@@ -2,9 +2,19 @@
 - Use python 3.8.10
 - Use pip3
 
-------------------------- Guide -----------------------------
-before using this project u must run providing comd below to install all the packages which are required in this project.
-- pip freeze > requirements.txt [ to create requirements.txt if it exist u don't have to run this cmd ]
-- pip install -r requirements.txt [ to install install all the packages inside requirements.txt file ]
+------------------------- Guide for developer -----------------------------
+before coding this project u must run providing comd below which are required in this project.
+- source venv/bin/activate [ to activate venv file ]
+- pip3 freeze > requirements.txt [ to create requirements.txt if it exist u don't have to run this cmd ]
+- pip3 install -r requirements.txt [ to install install all the packages inside requirements.txt file ]
+- create .env file inside the root folder of project
+    #-------database---------
+    DB_USER=root
+    DB_NAME=djangoecommerce
+    DB_PASSWORD=root3333
+    DB_HOST=localhost
+    DB_PORT=3306
+- python3 manage.py runserver [ to run project ]
 
+------------------------- Guide for user -----------------------------
 - before go inside project user must be login first make sure user is active
