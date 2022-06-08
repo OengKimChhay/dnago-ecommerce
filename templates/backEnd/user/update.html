@@ -1,26 +1,26 @@
 {% extends '../layouts/base.html' %}
-{% block title %} User Register {% endblock %}
-{% block page_title %} Register New User {% endblock %}
+{% block title %} Update User {% endblock %}
+{% block page_title %} Update User {% endblock %}
 
 {% block content %}
 
     <div class="row justify-content-center">
-        <div class="col-lg-8">
+        <div class="col-lg-6">
             <div class="white_card card_height_100 mb_30">
                 <h3 class="">Fill out the form</h3>
                 <div class="white_card_body">
-                    {% if form.non_field_errors %}
+                    {% if request.session.invalid_oldpass %}
                         <div class="alert alert-danger">
-                            {{ form.non_field_errors }}
+                            {{ request.session.invalid_oldpass }}
                         </div>
                     {% endif %}
 
                     {% for msg in messages %}
-                        <div class="alert alert-success" role="alert">
+                        <div class="alert alert-info" role="alert">
                             {{ msg }}
                         </div>
                     {% endfor %}
-                    <form method="POST" enctype="multipart/form-data" action="{% url 'user:auth_register' %}">
+                    <form method="POST" enctype="multipart/form-data">
                         {% csrf_token %}
                         <div class="row mb-3 ">
                             <div class="col-md-6">
@@ -71,6 +71,15 @@
                                 <small id="{{ form.contry.id_for_label }}" class="form-text text-muted">{{ form.contry.help_text }}</small>
                             {% endif %}
                         </div>
+                        <div class="form-group mb-3">
+                            <label for="{{ form.password.id_for_label }}">{{ form.password.label }}</label>
+                                {{ form.password }}
+                                {% if form.password.errors %}
+                                    <small class="text-danger">{{ form.password.errors }}</small>
+                                {% else %}
+                                    <small id="{{ form.password.id_for_label }}" class="form-text text-muted">{{ form.password.help_text }}</small>
+                                {% endif %}
+                        </div>
                         <div class="row mb-3 ">
                             <div class="col-md-6">
                                 <label for="{{ form.password1.id_for_label }}">{{ form.password1.label }}</label>
@@ -97,24 +106,24 @@
                         </div>
                         <div class="d-flex justify-content-center" style="border: 2px dashed grey;margin:20px 0;">
                             <div>
-                                <img id="imgPreview" src="../../../media/user/avatar.png" alt="image" style="width:191px;padding: 13px;">
+                                <img id="imgPreview" src="{% if old_profile.profile %} {{ old_profile.profile.url }} {% else %} ../../../media/user/avatar.png {% endif %}" alt="image" style="width:300px;padding: 13px;">
                                 <strong id="sizefile" style="display:block"></strong>
                             </div>
                         </div>
                         <label class="form-check-label">Role</label>
-                        <div class="form-group form-check mb-3">
+                        <div class="form-group form-check form-switch mb-3">
                             {{ form.is_admin }}
                             <label class="form-check-label" for="{{ form.is_admin.id_for_label }}">{{ form.is_admin.label }}</label>
                         </div>
-                        <div class="form-group form-check mb-3">
+                        <div class="form-group form-check form-switch mb-3">
                             {{ form.is_customer }}
                             <label class="form-check-label" for="{{ form.is_customer.id_for_label }}">{{ form.is_customer.label }}</label>
                         </div>
-                        <div class="form-group form-check mb-3">
+                        <div class="form-group form-check form-switch mb-3">
                             {{ form.is_staff }}
                             <label class="form-check-label" for="{{ form.is_staff.id_for_label }}">{{ form.is_staff.label }}</label>
                         </div>
-                        <div class="form-group form-check">
+                        <div class="form-group form-check form-switch ">
                             {{ form.is_active }}
                             <label class="form-check-label" for="{{ form.is_active.id_for_label }}">{{ form.is_active.label }}</label>
                         </div>

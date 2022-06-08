@@ -439,7 +439,7 @@ class UpdateForm(UserCreationForm):
         )
     )
 
-    # ----------- validation -----------------
+    # ---------------------------------- validation --------------------------------------------
     # ------------ the clean func is for global error not in the feilds form --------------------
     # def clean(self):
     #     password1 = self.cleaned_data.get("password1")
@@ -494,7 +494,6 @@ class UpdateForm(UserCreationForm):
 
     def clean_password1(self, *args, **kwargs):
         password1 = self.cleaned_data.get("password1")
-        password2 = self.cleaned_data.get("password2")
         fullname = self.cleaned_data.get("fullname")
         email = self.cleaned_data.get("email")
         if password1 == "":
@@ -507,8 +506,6 @@ class UpdateForm(UserCreationForm):
             raise forms.ValidationError(_("Password is too similar to the email"))
         elif password1 and not re.compile(SPECIAL_CHAR_REGEX).search(password1):
             raise forms.ValidationError(_('Password must contain special characters'))
-        # elif password1 != password2:
-        #     raise forms.ValidationError(_("Re Password not match"))
         else:
             return password1
 
@@ -525,9 +522,10 @@ class UpdateForm(UserCreationForm):
         old_password = self.cleaned_data.get("password")
         if old_password == "":
             raise forms.ValidationError("You must enter your old password.")
-        if self.old_password_flag == False:
-            raise forms.ValidationError("The old password that you have entered is wrong.")
+        # if not self.check_password(old_password):
+        #     raise forms.ValidationError("The old password that you have entered is wrong.")
         return old_password
+
 
 class LoginForm(forms.Form):
     class Meta:

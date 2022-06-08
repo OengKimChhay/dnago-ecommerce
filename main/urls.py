@@ -20,9 +20,9 @@ from django.conf.urls.static import static
 
 urlpatterns = [
     # path('admin/'   , admin.site.urls),
-    path('/'        , include('apps.backEnd.manageStores.urls', namespace='manageStores')),
+    path('', include('apps.backEnd.manageStores.urls', namespace='manageStores')),
     # path('auth/'    , include('apps.frontEnd.store.urls', namespace='store')),
-    path('auth/'    , include('auth.user.urls', namespace='user'))
+    path('auth/', include('auth.user.urls', namespace='user'))
 ]
 
 if settings.DEBUG:

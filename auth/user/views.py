@@ -6,6 +6,7 @@ from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.contrib.auth import get_user_model
 from django.utils.safestring import mark_safe
+from django import forms
 
 # Custom import
 from .form import (
@@ -26,7 +27,7 @@ def auth_register(request):
             return redirect("user:auth_register")
     else:
         form = RegistrationForm()
-    return render(request, 'manageStores/user/create.html', {'form': form})
+    return render(request, 'backEnd/user/create.html', {'form': form})
 
 
 # -------------- listing user -----------------
@@ -49,18 +50,19 @@ def auth_listing(request):
             users = users.filter(is_active=1)
     else:
         users = user_model.objects.all()
-    return render(request, 'manageStores/user/listing.html', {'users': users})
+    return render(request, 'backEnd/user/listing.html', {'users': users})
 
 
 # -------------- view detail user -------------
 def auth_view(request, pk):
     user_model = get_user_model()
     user = user_model.objects.get(id=pk)
-    return render(request, 'manageStores/user/view.html', {'user': user})
+    return render(request, 'backEnd/user/view.html', {'user': user})
 
 
 # -------------- update user ----------------
 def auth_update(request, pk):
+    
     user_model = get_user_model()
     user = user_model.objects.get(id=pk)
     form = UpdateForm(request.POST or None, request.FILES or None, instance=user)
@@ -68,19 +70,25 @@ def auth_update(request, pk):
         if request.method == 'POST':
             try:
                 if form.is_valid():
-                    # ----remove old pic------
-                    if len(request.FILES) != 0:
-                        old_profile = user.profile.path
-                        if os.path.exists(old_profile):
-                            os.remove(old_profile)
-                    form.save()
-                    messages.success(request, 'User has been updated.')
-                    return render(request, 'manageStores/user/update.html', {'form': form, 'old_profile': user})
+                    old_password = form.cleaned_data["password"]
+                    
+                    # ----check old password -----
+                    if not user.check_password(old_password):
+                        messages.error(request, 'Old Password not match.')
+                    else:
+                        # ----remove old pic------
+                        if len(request.FILES) != 0:
+                            old_profile = user.profile.path
+                            if os.path.exists(old_profile):
+                                os.remove(old_profile)
+                        form.save()
+                        messages.success(request, 'User has been updated.')
+                        return render(request, 'backEnd/user/update.html', {'form': form, 'old_profile': user})
             except Exception as e:
                 messages.error(request, e)
-                return render(request, 'manageStores/user/update.html', {'form': form, 'old_profile': user})
+                return render(request, 'backEnd/user/update.html', {'form': form, 'old_profile': user})
 
-        return render(request, 'manageStores/user/update.html', {'form': form, 'old_profile': user})
+        return render(request, 'backEnd/user/update.html', {'form': form, 'old_profile': user})
     else:
         messages.error(request, 'Cant find this number.')
         return redirect('user:auth_listing')
@@ -111,7 +119,7 @@ def auth_login(request):
                 if user is not None:
                     if user.is_admin:
                         login(request, user)
-                        return redirect('manageStores:dashboard')
+                        return redirect('backEnd:dashboard')
                     else:
                         messages.error(request, 'Sorry your account does\'nt have any permissions to access. Your\'re not Admin')
                 else:
@@ -120,7 +128,7 @@ def auth_login(request):
                 messages.error(request, 'There is something wrong with your account. please try again.')
     else:
         form = LoginForm()
-    return render(request, 'manageStores/user/login.html', {'form': form})
+    return render(request, 'backEnd/user/login.html', {'form': form})
 
 
 # ------------- logout user ----------------

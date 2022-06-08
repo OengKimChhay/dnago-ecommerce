@@ -27,6 +27,7 @@ class Product(models.Model):
     is_active = models.BooleanField(default=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+    deleted_at = models.DateTimeField(auto_now_add=True)
 
 
 # --------------- ProductImages storing multiple images for products------------
@@ -40,12 +41,14 @@ class Cart(models.Model):
     customer_id = models.OneToOneField(Customer, on_delete=models.CASCADE)
     created_at = models.DateField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+    deleted_at = models.DateTimeField(auto_now_add=True)
 
 
 class CartItem(models.Model):
     cart_id = models.ForeignKey(Cart, on_delete=models.CASCADE)
     product_id = models.ForeignKey(Product, on_delete=models.CASCADE)
     quantity = models.IntegerField(default=1)
+    discount = models.DecimalField(default=0.00, max_digits=10, decimal_places=2)
     total = models.DecimalField(default=0.00, max_digits=10, decimal_places=2)
     created_at = models.DateField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
@@ -55,20 +58,20 @@ class CartItem(models.Model):
 class Order(models.Model):
     customer_id = models.ForeignKey(Customer, on_delete=models.CASCADE)
     created_at = models.DateField(auto_now_add=True)
-    amount = models.CharField(max_length=100)
 
 
 class OrderItem(models.Model):
     order_id = models.ForeignKey(Order, on_delete=models.CASCADE)
     product_id = models.ForeignKey(Product, on_delete=models.CASCADE)
-    quantity = models.CharField(max_length=28)
+    quantity = models.IntegerField(default=0)
     total = models.DecimalField(default=0.00, max_digits=10, decimal_places=2)
     created_at = models.DateField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
 
 
 class ShippingAddress(models.Model):
     customer_id = models.ForeignKey(Customer, on_delete=models.CASCADE)
-    order_id = models.ForeignKey(Order, on_delete=models.CASCADE)
+    orderItem_id = models.ForeignKey(OrderItem, on_delete=models.CASCADE)
     firstname = models.CharField(max_length=188)
     lastname = models.CharField(max_length=100)
     contry = models.CharField(max_length=108)
