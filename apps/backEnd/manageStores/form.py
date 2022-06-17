@@ -3,12 +3,10 @@ from django.utils.translation import gettext_lazy as _
 from .models import Category
 import re
 
-
-
-class CategoryForm(forms.Form):
+class CategoryForm(forms.ModelForm):
     class Meta:
         model = Category
-        fields = ('email', 'password')
+        fields = ('name', 'slug')
 
     name = forms.CharField(
         label_suffix=" **",
@@ -40,8 +38,8 @@ class CategoryForm(forms.Form):
             return name
 
     def clean_slug(self, *args, **kwargs):
-        slug = self.cleaned_data.get("slug")
-        if slug == "":
-            raise forms.ValidationError(_("Category slug can not be blank"))
+        slugName    = self.cleaned_data.get("slug")
+        if slugName == "":
+            raise forms.ValidationError(_("Category slug can not be blank,"))
         else:
-            return slug
+            return slugName

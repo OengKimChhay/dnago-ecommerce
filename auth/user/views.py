@@ -118,14 +118,14 @@ def auth_login(request):
                 user = authenticate(email=email, password=password)
                 if user is not None:
                     if user.is_admin:
-                        login(request, user)
-                        return redirect('backEnd:dashboard')
+                            login(request, user)
+                            return redirect('manageStores:dashboard')
                     else:
                         messages.error(request, 'Sorry your account does\'nt have any permissions to access. Your\'re not Admin')
                 else:
                     messages.error(request, mark_safe('Invalid username or password. <br/> <small style="font-size:12px;">Note: Your account can be Inactive.</small>'))
             except Exception as e:
-                messages.error(request, 'There is something wrong with your account. please try again.')
+                            messages.error(request, 'There is something wrong with your account. please try again.')   
     else:
         form = LoginForm()
     return render(request, 'backEnd/user/login.html', {'form': form})

@@ -1,5 +1,6 @@
 body {
     font-size: 0.9rem;
+    background: #f1f1f1;
 }
 .page-wrapper .sidebar-wrapper,
 .sidebar-wrapper .sidebar-brand > a,
@@ -461,5 +462,24 @@ position: fixed;
     margin: 10px;
     font-size: 12px;
 }
-.shadow-custom{
+/* ------------------------------user-detail------------------- */
+.user-profile{
+    object-fit: cover;
+    width: 100px;
+    height: 100px;
+    border-radius: 100px;
+}
+.verify{
+    color: white;
+    background: #238523;
+    border-radius: 100px;
+    padding: 4px;
+    font-size: 11px;
+}
+.not-verify{
+    color: white;
+    background: #ff0404;
+    border-radius: 100px;
+    padding: 4px;
+    font-size: 11px;
 }
