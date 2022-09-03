@@ -11,7 +11,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="{% static 'manage_store/css/style.css' %}" >
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css" rel="stylesheet">
-    {% block css %}{% endblock %}
+    {% block css %} {% endblock %}
 </head>
 <body>
 
@@ -24,16 +24,16 @@
         <div class="sidebar-brand">
             <img src="{% static 'favicon.png' %}" alt="image">
             <div id="close-sidebar">
-            <i class="fa fa-times"></i>
+                <i class="fa fa-times"></i>
             </div>
         </div>
         <div class="sidebar-header">
             <div class="user-pic">
-                {% if user.is_authenticated %}
-                    {% if user.profile %}
-                        <img src="{{ user.profile.url }}" alt="photo">
+                {% if request.user.is_authenticated %}
+                    {% if request.user.profile %}
+                        <a href="{% url 'user:auth_view' user.id %}"><img src="{{ request.user.profile.url }}" alt="photo"></a>
                     {% else %}
-                        <img src="../../media/user/avatar.png" alt="photo">
+                        <a href="{% url 'user:auth_view' user.id %}"><img src="../../media/user/avatar.png" alt="photo"></a>
                     {% endif %}
                 {% else %}
                     <img src="../../media/user/avatar.png" alt="photo">
@@ -43,7 +43,7 @@
             <span class="user-name">
                 <strong>
                     {% if user.is_authenticated %}
-                        {{ user.fullname }}
+                        <a href="{% url 'user:auth_view' user.id %}">{{ user.fullname }}</a>
                     {% else %}
                         Unknow
                     {% endif %}
@@ -150,34 +150,39 @@
 
     <main class="page-content">
         <div class="content">
-            <div class="p-3 text-center" style="background: #4193df;">
-                <h3 class="m-0 text-white">{% block page_title %}{% endblock %}</h3>
+            <div class="p-3 text-center" style="background: white; box-shadow: 0px 2px 5px #d1d1d1;">
+                <h3 class="mb-0">asd</h3>
             </div>
             <div class="p-3">
-
-                <nav aria-label="breadcrumb" class="bg-white p-2 mb-3">
+                <nav aria-label="breadcrumb" class=" p-2 mb-3 bg-white custom-shadow">
                     <ol class="breadcrumb m-0">
-                      <li class="breadcrumb-item"><a href="#">Home</a></li>
-                      <li class="breadcrumb-item"><a href="#">Library</a></li>
-                      <li class="breadcrumb-item active" aria-current="page">Data</li>
+                        {% for breadcrumb in breadcrumbs %}
+                            {% for key,value in breadcrumb.items %}
+                                {% if value != '' %}
+                                <li class="breadcrumb-item"><a href="{% url value %}">{{ key }}</a></li>
+                                {% else %}
+                                <li class="breadcrumb-item active" aria-current="page">{{ key }}</li>
+                                {% endif %}
+                            {% endfor %}
+                        {% endfor %}
                     </ol>
-                  </nav>
+                </nav>
+                <h4 class="mb-3 p-2 custom-shadow" style="background-color: #cfdbff;color: #ff6c32;">{% block page_title %}{% endblock %}</h4>
+                
                 {% block content %}{% endblock %}
 
             </div>
         </div>
     </main>
-
 </div>
 
+    <!-- jquery  -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <!-- bootstrap 5-->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" ></script>
 
- <!-- jquery  -->
-  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<!-- bootstrap 5-->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" ></script>
-
-  <!-- custom js -->
-  <script src="{% static 'manage_store/js/javascript.js' %}"></script>
-  {% block javascript %}{% endblock %}
+    <!-- custom js -->
+    <script src="{% static 'manage_store/js/javascript.js' %}"></script>
+    {% block script %}{% endblock %}
 </body>
 </html>

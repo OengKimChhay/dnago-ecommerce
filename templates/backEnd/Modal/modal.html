@@ -1,0 +1,17 @@
+
+<div class="custom_modal modal-{{modal_index}}">
+    <div class="custom_modal-content">
+        <button class="custom_modal_close">&times;</button>
+        <div class="content-modal">
+            <div class="exclamation">
+                <i class="fa fa-exclamation"></i>
+            </div>
+            <h4 class="text-center head-title">Are you sure you want to do this action?</h4>
+            <div class="d-flex justify-content-center">
+                <a href="{% url url id %}" class="ok show-snackbar">Ok</a> <!-- url and id is the assign from the template which is use this modal box -->
+                <a href="#" class="custom_modal_close1 no">No</a>
+            </div>
+        </div>
+    </div>
+</div>
+

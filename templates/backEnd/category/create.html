@@ -5,44 +5,41 @@
 
 {% block content %}
 
-<div class="row justify-content-center my-5">
-    <div class="col-lg-5">
-        <div class="white_card card_height_100 mb_30">
-            <h3 class="">Fill out the form</h3>
-            <div class="white_card_body">
-                {% if form.non_field_errors %}
-                    <div class="alert alert-danger">
-                        {{ form.non_field_errors }}
-                    </div>
-                {% endif %}
-
-                {% for msg in messages %}
-                    <div class="alert alert-success" role="alert">
-                        {{ msg }}
-                    </div>
-                {% endfor %}
-                <form method="POST" action="{% url 'manageStores:category_create' %}">
-                    {% csrf_token %}
-                    <div class="row mb-3 ">
-                        <div class="col-md-12">
-                            <label for="{{ form.name.id_for_label }}">{{ form.name.label }}</label>
-                            {{ form.name }}
-                            {% if form.name.errors %}
-                                <small class="text-danger">{{ form.name.errors }}</small>
-                            {% endif %}
-                        </div>
-                        <div class="col-md-12">
-                            <label for="{{ form.slug.id_for_label }}">{{ form.slug.label }}</label>
-                            {{ form.slug }}
-                            {% if form.slug.errors %}
-                                <small class="text-danger">{{ form.slug.errors }}</small>
-                            {% endif %}
-                        </div>
-                    </div>
-                    <button type="submit" class="btn btn-primary">Submit</button>
-                </form>
+    <div class="bg-white p-0 px-3 py-3 mb-3 custom-shadow">
+        <!-- display information after do action -->
+        {% for message in messages %}
+            {% if message.tags == 'success' %}
+                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                    <strong><i class="fas fa-check"></i></strong> {{ message }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            {% elif message.tags == 'error' %}
+                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                    <strong><i class="fas fa-exclamation"></i></strong> {{ message }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            {% endif %}
+        {% endfor %}
+        <form method="POST" action="{% url 'manageStores:category_create' %}">
+            {% csrf_token %}
+            <div class="row mb-3 ">
+                <div class="col-md-12">
+                    <label for="{{ form.name.id_for_label }}">{{ form.name.label }}</label>
+                    {{ form.name }}
+                    {% if form.name.errors %}
+                        <small class="text-danger">{{ form.name.errors }}</small>
+                    {% endif %}
+                </div>
+                <div class="col-md-12">
+                    <label for="{{ form.slug.id_for_label }}">{{ form.slug.label }}</label>
+                    {{ form.slug }}
+                    {% if form.slug.errors %}
+                        <small class="text-danger">{{ form.slug.errors }}</small>
+                    {% endif %}
+                </div>
             </div>
-        </div>
+            <button type="submit" class="btn btn-primary">Submit</button>
+            <a class="btn btn-secondary" href="{% url 'manageStores:category_listing' %}">Cancel</a>
+        </form>
     </div>
-</div>
 {% endblock%}

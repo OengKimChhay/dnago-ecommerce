@@ -4,135 +4,143 @@
 
 {% block content %}
 
-    <div class="row justify-content-center">
-        <div class="col-lg-6">
-            <div class="white_card card_height_100 mb_30">
-                <h3 class="">Fill out the form</h3>
-                <div class="white_card_body">
-                    {% if request.session.invalid_oldpass %}
-                        <div class="alert alert-danger">
-                            {{ request.session.invalid_oldpass }}
-                        </div>
-                    {% endif %}
+<div class="bg-white p-0 px-3 py-3 mb-3 custom-shadow">
+    <ul class="nav nav-tabs mb-3">
+        <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="{% url 'user:auth_update' old_user.id %}">General Information</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="{% url 'user:auth_change_password' old_user.id %}">Change Password</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="#">Change Role</a>
+        </li>
+    </ul>
 
-                    {% for msg in messages %}
-                        <div class="alert alert-info" role="alert">
-                            {{ msg }}
-                        </div>
-                    {% endfor %}
-                    <form method="POST" enctype="multipart/form-data">
-                        {% csrf_token %}
-                        <div class="row mb-3 ">
-                            <div class="col-md-6">
-                                <label for="{{ form.fullname.id_for_label }}">{{ form.fullname.label }}</label>
-                                {{ form.fullname }}
-                                {% if form.fullname.errors %}
-                                    <small class="text-danger">{{ form.fullname.errors }}</small>
-                                {% else %}
-                                    <small id="{{ form.fullname.id_for_label }}" class="form-text text-muted">{{ form.fullname.help_text }}</small>
-                                {% endif %}
-                            </div>
-                            <div class="col-md-6">
-                                <label for="{{ form.email.id_for_label }}">{{ form.email.label }}</label>
-                                {{ form.email }}
-                                {% if form.email.errors %}
-                                    <small class="text-danger">{{ form.email.errors }}</small>
-                                {% else %}
-                                    <small id="{{ form.email.id_for_label }}" class="form-text text-muted">{{ form.email.help_text }}</small>
-                                {% endif %}
-                            </div>
-                        </div>
-                        <div class="row mb-3 ">
-                            <div class="col-md-6">
-                                <label for="{{ form.phone.id_for_label }}">{{ form.phone.label }}</label>
-                                {{ form.phone }}
-                                {% if form.phone.errors %}
-                                    <small class="text-danger">{{ form.phone.errors }}</small>
-                                {% else %}
-                                    <small id="{{ form.phone.id_for_label }}" class="form-text text-muted">{{ form.phone.help_text }}</small>
-                                {% endif %}
-                            </div>
-                            <div class="col-md-6">
-                                <label for="{{ form.company_name.id_for_label }}">{{ form.company_name.label }}</label>
-                                {{ form.company_name }}
-                                {% if form.company_name.errors %}
-                                    <small class="text-danger">{{ form.company_name.errors }}</small>
-                                {% else %}
-                                    <small id="{{ form.company_name.id_for_label }}" class="form-text text-muted">{{ form.company_name.help_text }}</small>
-                                {% endif %}
-                            </div>
-                        </div>
-                        <div class="form-group mb-3">
-                            <label for="{{ form.contry.id_for_label }}">{{ form.contry.label }}</label>
-                            {{ form.contry }}
-                            {% if form.contry.errors %}
-                                <small class="text-danger">{{ form.contry.errors }}</small>
-                            {% else %}
-                                <small id="{{ form.contry.id_for_label }}" class="form-text text-muted">{{ form.contry.help_text }}</small>
-                            {% endif %}
-                        </div>
-                        <div class="form-group mb-3">
-                            <label for="{{ form.password.id_for_label }}">{{ form.password.label }}</label>
-                                {{ form.password }}
-                                {% if form.password.errors %}
-                                    <small class="text-danger">{{ form.password.errors }}</small>
-                                {% else %}
-                                    <small id="{{ form.password.id_for_label }}" class="form-text text-muted">{{ form.password.help_text }}</small>
-                                {% endif %}
-                        </div>
-                        <div class="row mb-3 ">
-                            <div class="col-md-6">
-                                <label for="{{ form.password1.id_for_label }}">{{ form.password1.label }}</label>
-                                {{ form.password1 }}
-                                {% if form.password1.errors %}
-                                    <small class="text-danger">{{ form.password1.errors }}</small>
-                                {% else %}
-                                    <small id="{{ form.password1.id_for_label }}" class="form-text text-muted">{{ form.password1.help_text }}</small>
-                                {% endif %}
-                            </div>
-                            <div class="col-md-6">
-                                <label for="{{ form.password2.id_for_label }}">{{ form.password2.label }}</label>
-                                {{ form.password2 }}
-                                {% if form.password2.errors %}
-                                    <small class="text-danger">{{ form.password2.errors }}</small>
-                                {% else %}
-                                    <small id="{{ form.password2.id_for_label }}" class="form-text text-muted">{{ form.password2.help_text }}</small>
-                                {% endif %}
-                            </div>
-                        </div>
-                        <div class="form-group mb-3">
-                            <label for="{{ form.profile.id_for_label }}">{{ form.profile.label }}</label>
-                            {{ form.profile }}
-                        </div>
-                        <div class="d-flex justify-content-center" style="border: 2px dashed grey;margin:20px 0;">
-                            <div>
-                                <img id="imgPreview" src="{% if old_profile.profile %} {{ old_profile.profile.url }} {% else %} ../../../media/user/avatar.png {% endif %}" alt="image" style="width:300px;padding: 13px;">
-                                <strong id="sizefile" style="display:block"></strong>
-                            </div>
-                        </div>
-                        <label class="form-check-label">Role</label>
-                        <div class="form-group form-check form-switch mb-3">
-                            {{ form.is_admin }}
-                            <label class="form-check-label" for="{{ form.is_admin.id_for_label }}">{{ form.is_admin.label }}</label>
-                        </div>
-                        <div class="form-group form-check form-switch mb-3">
-                            {{ form.is_customer }}
-                            <label class="form-check-label" for="{{ form.is_customer.id_for_label }}">{{ form.is_customer.label }}</label>
-                        </div>
-                        <div class="form-group form-check form-switch mb-3">
-                            {{ form.is_staff }}
-                            <label class="form-check-label" for="{{ form.is_staff.id_for_label }}">{{ form.is_staff.label }}</label>
-                        </div>
-                        <div class="form-group form-check form-switch ">
-                            {{ form.is_active }}
-                            <label class="form-check-label" for="{{ form.is_active.id_for_label }}">{{ form.is_active.label }}</label>
-                        </div>
-                        <button type="submit" class="btn btn-primary">Submit</button>
-                    </form>
-                </div>
+    <!-- display information after do action -->
+    {% for message in messages %}
+        {% if message.tags == 'success' %}
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                <strong><i class="fas fa-check"></i></strong> {{ message }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        {% elif message.tags == 'error' %}
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                <strong><i class="fas fa-exclamation"></i></strong> {{ message }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        {% endif %}
+    {% endfor %}
+    <form method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="row mb-3 ">
+            <div class="col-md-6">
+                <label for="{{ form.fullname.id_for_label }}">{{ form.fullname.label }}</label>
+                {{ form.fullname }}
+                {% if form.fullname.errors %}
+                    <small class="text-danger">{{ form.fullname.errors }}</small>
+                {% else %}
+                    <small id="{{ form.fullname.id_for_label }}" class="form-text text-muted">{{ form.fullname.help_text }}</small>
+                {% endif %}
+            </div>
+            <div class="col-md-6">
+                <label for="{{ form.email.id_for_label }}">{{ form.email.label }}</label>
+                {{ form.email }}
+                {% if form.email.errors %}
+                    <small class="text-danger">{{ form.email.errors }}</small>
+                {% else %}
+                    <small id="{{ form.email.id_for_label }}" class="form-text text-muted">{{ form.email.help_text }}</small>
+                {% endif %}
             </div>
         </div>
-    </div>
+        <div class="row mb-3 ">
+            <div class="col-md-6">
+                <label for="{{ form.phone.id_for_label }}">{{ form.phone.label }}</label>
+                {{ form.phone }}
+                {% if form.phone.errors %}
+                    <small class="text-danger">{{ form.phone.errors }}</small>
+                {% else %}
+                    <small id="{{ form.phone.id_for_label }}" class="form-text text-muted">{{ form.phone.help_text }}</small>
+                {% endif %}
+            </div>
+            <div class="col-md-6">
+                <label for="{{ form.company_name.id_for_label }}">{{ form.company_name.label }}</label>
+                {{ form.company_name }}
+                {% if form.company_name.errors %}
+                    <small class="text-danger">{{ form.company_name.errors }}</small>
+                {% else %}
+                    <small id="{{ form.company_name.id_for_label }}" class="form-text text-muted">{{ form.company_name.help_text }}</small>
+                {% endif %}
+            </div>
+        </div>
+        <div class="form-group mb-3">
+            <label for="{{ form.contry.id_for_label }}">{{ form.contry.label }}</label>
+            {{ form.contry }}
+            {% if form.contry.errors %}
+                <small class="text-danger">{{ form.contry.errors }}</small>
+            {% else %}
+                <small id="{{ form.contry.id_for_label }}" class="form-text text-muted">{{ form.contry.help_text }}</small>
+            {% endif %}
+        </div>
+        <div class="form-group mb-3">
+            <label for="{{ form.password.id_for_label }}">{{ form.password.label }}</label>
+                {{ form.password }}
+                {% if form.password.errors %}
+                    <small class="text-danger">{{ form.password.errors }}</small>
+                {% else %}
+                    <small id="{{ form.password.id_for_label }}" class="form-text text-muted">{{ form.password.help_text }}</small>
+                {% endif %}
+        </div>
+        <div class="row mb-3 ">
+            <div class="col-md-6">
+                <label for="{{ form.password1.id_for_label }}">{{ form.password1.label }}</label>
+                {{ form.password1 }}
+                {% if form.password1.errors %}
+                    <small class="text-danger">{{ form.password1.errors }}</small>
+                {% else %}
+                    <small id="{{ form.password1.id_for_label }}" class="form-text text-muted">{{ form.password1.help_text }}</small>
+                {% endif %}
+            </div>
+            <div class="col-md-6">
+                <label for="{{ form.password2.id_for_label }}">{{ form.password2.label }}</label>
+                {{ form.password2 }}
+                {% if form.password2.errors %}
+                    <small class="text-danger">{{ form.password2.errors }}</small>
+                {% else %}
+                    <small id="{{ form.password2.id_for_label }}" class="form-text text-muted">{{ form.password2.help_text }}</small>
+                {% endif %}
+            </div>
+        </div>
+        <div class="form-group mb-3">
+            <label for="{{ form.profile.id_for_label }}">{{ form.profile.label }}</label>
+            {{ form.profile }}
+        </div>
+        <div class="d-flex justify-content-center" style="border: 2px dashed grey;margin:20px 0;">
+            <div>
+                <img id="imgPreview" src="{% if old_user.profile %} {{ old_user.profile.url }} {% else %} ../../../media/user/avatar.png {% endif %}" alt="image" style="width:300px;padding: 13px;">
+                <strong id="sizefile" style="display:block"></strong>
+            </div>
+        </div>
+        <label class="form-check-label">Role</label>
+        <div class="form-group form-check form-switch mb-3">
+            {{ form.is_admin }}
+            <label class="form-check-label" for="{{ form.is_admin.id_for_label }}">{{ form.is_admin.label }}</label>
+        </div>
+        <div class="form-group form-check form-switch mb-3">
+            {{ form.is_customer }}
+            <label class="form-check-label" for="{{ form.is_customer.id_for_label }}">{{ form.is_customer.label }}</label>
+        </div>
+        <div class="form-group form-check form-switch mb-3">
+            {{ form.is_staff }}
+            <label class="form-check-label" for="{{ form.is_staff.id_for_label }}">{{ form.is_staff.label }}</label>
+        </div>
+        <div class="form-group form-check form-switch ">
+            {{ form.is_active }}
+            <label class="form-check-label" for="{{ form.is_active.id_for_label }}">{{ form.is_active.label }}</label>
+        </div>
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+</div>
 {% endblock%}
 
 {% block javascript %}

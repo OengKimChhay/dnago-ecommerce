@@ -8,6 +8,8 @@ category = [
     path('listing/',        views.category_listing, name='category_listing'),
     path('create/',         views.category_create,  name='category_create'),
     path('update/<int:pk>/',views.category_update,  name='category_update'),
+    path('view/<slug:slug>/',  views.category_view,    name='category_view'),
+    path('delete/<int:pk>/',views.category_delete,  name='category_delete'),
 ]
 
 urlpatterns = [
