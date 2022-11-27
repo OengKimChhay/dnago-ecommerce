@@ -1,5 +1,6 @@
 body {
     font-size: 0.9rem;
+    background: #F9F9F9;
 }
 .page-wrapper .sidebar-wrapper,
 .sidebar-wrapper .sidebar-brand > a,
@@ -49,24 +50,24 @@ body {
     }
 }
 .white_card{
-    box-shadow: 0px 0px 6px #9b9b9b;
+    
+    border: 1px solid #d5d5d5;
     padding: 15px;
-    border-radius: 4px;
 }
 .shadow {
     box-shadow: 0px 2px 5px grey!important;
 }
 .form-control,.form-select{
     outline: none;
-    font-size: 19px;
-    border: 1px solid #919191;
+    font-size: 17px;
+    border: 1px solid #d5d5d5;
     padding: 4px 10px;
-    border-radius: 4px;
+    border-radius: 0;
     transition:0.3s;
 }
 .form-control:focus,.form-select:focus{
     border:1px solid #4295e0;
-    box-shadow:0px 0px 0px 2px #4295e0;
+    box-shadow:0px 0px 0px 1px #4295e0;
 }
 /*----------------show sidebar button----------------*/
 #show-sidebar {
@@ -111,6 +112,7 @@ position: fixed;
     height: calc(100% - 30px);
     overflow-y: auto;
     position: relative;
+    background: white
 }
 
 .sidebar-content.desktop {
@@ -121,8 +123,7 @@ position: fixed;
 
 .sidebar-wrapper .sidebar-brand {
     padding: 10px 20px;
-    display: flex;
-    align-items: center;
+    position: relative;
 }
 
 .sidebar-wrapper .sidebar-brand > a {
@@ -134,26 +135,27 @@ position: fixed;
 .sidebar-wrapper .sidebar-brand #close-sidebar {
     cursor: pointer;
     font-size: 20px;
+    position: absolute;
+    top: 8px;
+    right: 13px;
 }
 /*--------------------sidebar-header----------------------*/
 
 .sidebar-wrapper .sidebar-header {
     padding: 20px;
-    overflow: hidden;
+    display:flex;
+    align-items: center;
 }
 
 .sidebar-wrapper .sidebar-header .user-pic {
-    float: left;
-    width: 60px;
-    padding: 2px;
-    border-radius: 5px;
-    margin-right: 15px;
+    margin-right: 10px;
+    box-shadow: 0px 1px 3px grey;
 }
 
 .sidebar-wrapper .sidebar-header .user-pic img {
     object-fit: cover;
-    height: 100%;
-    width: 100%;
+    height: 50px;
+    width: 50px;
 }
 
 .sidebar-wrapper .sidebar-header .user-info {
@@ -404,9 +406,9 @@ position: fixed;
 .chiller-theme .sidebar-wrapper .sidebar-menu .sidebar-dropdown div,
 .chiller-theme .sidebar-wrapper .sidebar-search input.search-menu,
 .chiller-theme .sidebar-wrapper .sidebar-search .input-group-text {
-    background: #4193df;
+    background: #d1d1d1;
     height: 100%;
-    color:white;
+    color: #4c4c4c;
 }
 
 .chiller-theme .sidebar-wrapper .sidebar-menu .header-menu span {
@@ -461,5 +463,204 @@ position: fixed;
     margin: 10px;
     font-size: 12px;
 }
-.shadow-custom{
+/* ------------------------------user-detail------------------- */
+.user-profile{
+    object-fit: cover;
+    width: 100px;
+    height: 100px;
+    border-radius: 100px;
 }
+.verify{
+    color: white;
+    background: #238523;
+    border-radius: 100px;
+    padding: 4px;
+    font-size: 11px;
+}
+.not-verify{
+    color: white;
+    background: #ff0404;
+    border-radius: 100px;
+    padding: 4px;
+    font-size: 11px;
+}
+.action-item{
+    width: 25px;
+    height: 25px;
+    background: #d7d7d7;
+    padding: 8px;
+    display: flex;
+    justify-content: center;
+    border-radius: 4px;
+    align-items: center;
+    text-decoration: none;
+    margin: 0 2px;
+}
+/* -----------------modal------------------ */
+.ok{
+    text-decoration: none;
+    font-size: 19px;
+    background: #7ad18d;
+    color: #0d580d;
+    padding: 4px 35px;
+    border-radius: 4px;
+    margin-right: 20px;
+}
+.no{
+    text-decoration: none;
+    font-size: 19px;
+    background: #f1aaaa;
+    color: #850a0a;
+    padding: 4px 35px;
+    border-radius: 4px;
+}
+.head-title{
+    margin: 0;
+    padding: 16px 0;
+}
+.exclamation{
+    border: 3px solid #f39927;
+    border-radius: 100px;
+    width: 100px;
+    font-size: 46px;
+    height: 100px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #f39927;
+    margin: auto;
+}
+.custom_modal {
+    display: none;
+    position: fixed;
+    z-index: 5;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgb(0 0 0 / 55%);
+}
+.custom_modal.show{
+    display: block;
+}
+.content-modal {
+    padding: 60px 0;
+}
+/* Modal Content */
+.custom_modal-content {
+    background-color: #fefefe;
+    margin: auto;
+    padding: 20px;
+    border: 1px solid #888;
+    max-width: 450px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border: 1px solid white;
+    border-radius: 5px;
+    box-shadow: 0px 0px 3px 0px #8d8d8d;
+}
+
+/* The Close Button */
+.custom_modal_close {
+    color: #aaaaaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+    outline: none;
+    width: 30px;
+    border: 1px solid grey;
+    display: flex;
+    height: 30px;
+    justify-content: center;
+    align-items: center;
+    border-radius: 5px;
+    margin-left: 12px;
+}
+
+.custom_modal_close:hover,
+.custom_modal_close:focus {
+    color: #000;
+    text-decoration: none;
+    cursor: pointer;
+}
+.custom-table{
+    width: 100%;
+    color: #212529;
+    vertical-align: top;
+}
+.custom-table tbody tr:hover{
+    background-color: #ffe8d5;
+}
+.custom-table td,th{
+
+    padding: 7px;
+}
+.custom-table thead{
+    background-color: #e9e9e9;
+}
+.btn{
+    border-radius: 0;
+    border: 1px solid #d5d5d5;
+}
+.btn-primary{
+    background: #4193df;
+}
+.custom-shadow{
+    box-shadow: 0 .125rem .25rem rgba(0,0,0,.075);
+}
+.alert {
+    padding: 7px;
+    border-radius: 0;
+}
+.alert-dismissible .btn-close {
+    padding: 11px 9px;
+}
+.form-check-input:disabled{
+    opacity: 1;
+}
+.nav-tabs .nav-link.active {
+    color: white;
+    background-color: #eb6d24;
+}
+/* .snackbar {
+    visibility: hidden; 
+    display:none;
+    min-width: 250px;
+    margin-left: -125px; 
+    background-color: #333; 
+    color: #fff; 
+    text-align: center; 
+    border-radius: 2px; 
+    padding: 16px; 
+    position: fixed; 
+    z-index: 10; 
+    left: 50%;
+    bottom: 30px; 
+}
+.snackbar.show {
+    visibility: visible ;
+    display: block;
+    -webkit-animation: fadein 0.5s, fadeout 1s 3.5s;
+    animation: fadein 0.5s, fadeout 1s 3.5s;
+}
+@-webkit-keyframes fadein {
+    from {bottom: 0; opacity: 0;}
+    to {bottom: 30px; opacity: 1;}
+}
+@keyframes fadein {
+    from {bottom: 0; opacity: 0;}
+    to {bottom: 30px; opacity: 1;}
+}
+
+@-webkit-keyframes fadeout {
+    from {bottom: 30px; opacity: 1;}
+    to {bottom: 0; opacity: 0;}
+}
+
+@keyframes fadeout {
+    from {bottom: 30px; opacity: 1;}
+    to {bottom: 0; opacity: 0;}
+} */

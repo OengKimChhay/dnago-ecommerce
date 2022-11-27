@@ -527,6 +527,93 @@ class UpdateForm(UserCreationForm):
         return old_password
 
 
+class ChangePassForm(UserCreationForm):
+    class Meta:
+        model = Account
+        fields = (
+            'password',
+            'password1',
+            'password2',
+        )
+
+    password = forms.CharField(
+        label_suffix=" **",
+        label="Old Password",
+        required=False,
+        widget=forms.PasswordInput(
+            attrs={
+                "placeholder": "Old Password",
+                "class": "form-control"
+            }
+        )
+    )
+
+    password1 = forms.CharField(
+        label_suffix=" **",
+        label="New Password",
+        required=False,
+        widget=forms.PasswordInput(
+            attrs={
+                "placeholder": "New Password",
+                "class": "form-control"
+            }
+        ),
+        help_text=
+        "Your New password can’t be too similar to your other personal information."
+        "Your New password must contain at least 6 characters."
+        "Your New password can’t be a commonly used password."
+        "Your New password can’t be entirely numeric."
+
+    )
+
+    password2 = forms.CharField(
+        label_suffix=" **",
+        label="Re-Password",
+        required=False,
+        widget=forms.PasswordInput(
+            attrs={
+                "placeholder": "Re-Password",
+                "class": "form-control"
+            }
+        ),
+        help_text="Enter the same password as before, for verification."
+    )
+
+    
+    def clean_password1(self, *args, **kwargs):
+        password1 = self.cleaned_data.get("password1")
+        fullname = self.cleaned_data.get("fullname")
+        email = self.cleaned_data.get("email")
+        if password1 == "":
+            raise forms.ValidationError(_("Password can not be blank"))
+        elif len(password1) <= 5:
+            raise forms.ValidationError(_("Password must be more then 5 characters"))
+        elif password1 == fullname:
+            raise forms.ValidationError(_("Password is too similar to the full name"))
+        elif password1 == email:
+            raise forms.ValidationError(_("Password is too similar to the email"))
+        elif password1 and not re.compile(SPECIAL_CHAR_REGEX).search(password1):
+            raise forms.ValidationError(_('Password must contain special characters'))
+        else:
+            return password1
+
+    def clean_password2(self):
+        password1 = self.cleaned_data.get("password1")
+        password2 = self.cleaned_data.get("password2")
+        if password1 is not None:
+            if password2 == "" or password1 != password2:
+                raise forms.ValidationError(
+                    "Password and Re-password does not match"
+                )
+
+    def clean_password(self):
+        old_password = self.cleaned_data.get("password")
+        if old_password == "":
+            raise forms.ValidationError("You must enter your old password.")
+        # if not self.check_password(old_password):
+        #     raise forms.ValidationError("The old password that you have entered is wrong.")
+        return old_password
+
 class LoginForm(forms.Form):
     class Meta:
         model = Account
